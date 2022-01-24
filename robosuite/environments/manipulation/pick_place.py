@@ -180,6 +180,7 @@ class PickPlace(SingleArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
+        additional_camera=None,
     ):
         # task settings
         self.single_object_mode = single_object_mode
@@ -211,6 +212,9 @@ class PickPlace(SingleArmEnv):
 
         # whether to use ground-truth object states
         self.use_object_obs = use_object_obs
+
+        # setup additional camera
+        self.additional_camera = additional_camera
 
         super().__init__(
             robots=robots,
@@ -470,6 +474,11 @@ class PickPlace(SingleArmEnv):
 
         # Arena always gets set to zero origin
         mujoco_arena.set_origin([0, 0, 0])
+
+        # setup additional camera
+        if self.additional_camera is not None:
+            for cfg in self.additional_camera:
+                mujoco_arena.set_camera(**cfg)
 
         # store some arena attributes
         self.bin_size = mujoco_arena.table_full_size

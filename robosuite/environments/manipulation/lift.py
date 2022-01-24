@@ -150,6 +150,7 @@ class Lift(SingleArmEnv):
         camera_heights=256,
         camera_widths=256,
         camera_depths=False,
+        additional_camera=None,
     ):
         # settings for table top
         self.table_full_size = table_full_size
@@ -165,6 +166,9 @@ class Lift(SingleArmEnv):
 
         # object placement initializer
         self.placement_initializer = placement_initializer
+
+        # setup additional camera
+        self.additional_camera = additional_camera
 
         super().__init__(
             robots=robots,
@@ -260,6 +264,11 @@ class Lift(SingleArmEnv):
 
         # Arena always gets set to zero origin
         mujoco_arena.set_origin([0, 0, 0])
+
+        # setup additional camera
+        if self.additional_camera is not None:
+            for cfg in self.additional_camera:
+                mujoco_arena.set_camera(**cfg)
 
         # initialize objects of interest
         tex_attrib = {

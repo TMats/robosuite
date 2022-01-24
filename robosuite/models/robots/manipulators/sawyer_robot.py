@@ -1,4 +1,5 @@
 import numpy as np
+
 from robosuite.models.robots.manipulators.manipulator_model import ManipulatorModel
 from robosuite.utils.mjcf_utils import xml_path_completion
 
@@ -28,14 +29,14 @@ class Sawyer(ManipulatorModel):
 
     @property
     def init_qpos(self):
-        return np.array([0, -1.18, 0.00, 2.18, 0.00, 0.57, 3.3161])
+        return np.array([0, -1.18, 0.00, 2.18, 0.00, 0.57, -1.57])
 
     @property
     def base_xpos_offset(self):
         return {
             "bins": (-0.5, -0.1, 0),
             "empty": (-0.6, 0, 0),
-            "table": lambda table_length: (-0.16 - table_length/2, 0, 0)
+            "table": lambda table_length: (-0.16 - table_length / 2, 0, 0),
         }
 
     @property

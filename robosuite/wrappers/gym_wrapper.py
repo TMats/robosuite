@@ -25,7 +25,7 @@ class GymWrapper(Wrapper, Env):
         AssertionError: [Object observations must be enabled if no keys]
     """
 
-    def __init__(self, env, keys=None):
+    def __init__(self, env, keys=None, dtype=np.float32):
         # Run super method
         super().__init__(env=env)
         # Create name for gym
@@ -59,9 +59,9 @@ class GymWrapper(Wrapper, Env):
         self.obs_dim = flat_ob.size
         high = np.inf * np.ones(self.obs_dim)
         low = -high
-        self.observation_space = spaces.Box(low=low, high=high)
+        self.observation_space = spaces.Box(low=low, high=high, dtype=dtype)
         low, high = self.env.action_spec
-        self.action_space = spaces.Box(low=low, high=high)
+        self.action_space = spaces.Box(low=low, high=high, dtype=dtype)
 
     def _flatten_obs(self, obs_dict, verbose=False):
         """
